@@ -1,11 +1,24 @@
-import Hello from "@/components/Hello";
-import Clock from '@/components/Clock';
+import ClickCounter from '@/components/ClickCounter';
+import List from '@/components/List';
+import Post from '@/components/Post';
 
-export default function Home() {
+// This function gets called at build time
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+  const data = await res.json();
+
+  return { props: { staticPost: data } };
+}
+
+export default function Home(props) {
   return (
     <>
-      <Hello />
-      <Clock locale="en-CA" /> 
+      <Post post={props.staticPost} />
+      <hr />
+      <List />
+      <hr />
+      <ClickCounter />
     </>
-  )
+  );
 }
